@@ -1,14 +1,6 @@
 const userModel = require("../../models/user");
 const pager = require("../../utils/pager");
 
-// async function createIfNotExists(decoded, response) {
-//   let user = await findOne(decoded.email)
-//   if (!user) {
-//     user = { firstname: decoded.given_name, lastname: decoded.family_name, email: decoded.email }
-//     await save(user)
-//   }
-//   return user
-// }
 
 async function createIfNotExists(decoded, response) {
   let user = await findOne(decoded.email);
@@ -32,7 +24,7 @@ async function findOneById(_id) {
   return await userModel.findById(_id).exec();
 }
 
-// Busca un usuario por email
+// busca un usuario por email
 async function findOne(email) {
   return await userModel.findOne({ email: email }).exec();
 }

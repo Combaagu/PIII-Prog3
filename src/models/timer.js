@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// schema mongoose
 const timerSchema = new mongoose.Schema({
   startDate: String,
   endDate: String,
