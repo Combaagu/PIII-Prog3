@@ -17,13 +17,6 @@
           "Task"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "params",
-            "in": "header",
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -38,6 +31,29 @@
           "Task"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "resume": {
+                  "example": "any"
+                },
+                "user": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -122,28 +138,6 @@
           "Usuario"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "perPage",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -158,44 +152,6 @@
           "Usuario"
         ],
         "description": "",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Usuario a crear",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstname": {
-                  "type": "string"
-                },
-                "lastname": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "string"
-                },
-                "domicilio": {
-                  "type": "string"
-                },
-                "celular": {
-                  "type": "string"
-                },
-                "documento": {
-                  "type": "string"
-                },
-                "rol": {
-                  "type": "string"
-                },
-                "area": {
-                  "type": "string"
-                }
-              },
-              "required": ["firstname", "lastname", "email", "rol", "area"]
-            }
-          }
-        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -248,48 +204,42 @@
             "type": "string"
           },
           {
-            "in": "body",
             "name": "body",
-            "description": "Usuario a actualizar",
-            "required": true,
+            "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "firstname": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "lastname": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "email": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "domicilio": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "celular": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "documento": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "rol": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "area": {
-                  "type": "string"
+                  "example": "any"
                 }
-              },
-              "required": ["firstname", "lastname", "email", "rol", "area"]
+              }
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"

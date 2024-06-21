@@ -4,23 +4,18 @@ const taskService = require("./task.service");
 const router = express.Router();
 
 // GET /api/task
+// metodo query - revisar page
 router.get("/api/task", async (req, res) => {
   // #swagger.tags = ['Task']
   try {
-    const { page, perPage, filter, sort } = req.query; // Obtener parámetros de consulta
+    params = req.query
+    // params = req.params.page //revisar
 
-    const params = {
-      page: parseInt(page) || 0,
-      perPage: parseInt(perPage) || 10,
-      filter: filter ? JSON.parse(filter) : {},
-      sort: sort ? JSON.parse(sort) : {}
-    };
-
-    let paginated = await taskService.paginated(params);
+    let paginated = await taskService.paginated(params)
     return res.status(200).send(paginated);
 
   } catch (error) {
-    console.log(error);
+    console.log(error)
     return res.status(500).send(error);
   }
 });
@@ -40,13 +35,24 @@ router.get("/api/task/:id", async (req, res) => {
 });
 
 // POST /api/task
+//metodo body 
 router.post("/api/task", async (req, res) => {
   // #swagger.tags = ['Task']
   try {
-    const newUser = req.body;
+    // const newUser = req.body;
+
+    const { name, description, resume, user } = req.body
+
+    const newUser = {
+      name,
+      description,
+      resume,
+      user
+    }
     console.log(newUser);
-    const user = await taskService.save(newUser);
-    return res.status(201).send(user);
+
+    const users = await taskService.save(newUser);
+    return res.status(201).send(users);
 
   } catch (error) {
     console.log(error);
@@ -55,11 +61,24 @@ router.post("/api/task", async (req, res) => {
 });
 
 // PUT /api/task/:id
+// metodo params
 router.put("/api/task/:id", async (req, res) => {
   // #swagger.tags = ['Task']
   try {
     const userId = req.params.id;
+    // const description = req.params.description;
+    // const resume = req.params.resume;
+
     const updatedUser = req.body;
+
+    // const { name, description, resume } = req.body
+
+    // const updatedUser = {
+    //   name,
+    //   description,
+    //   resume
+    // }
+
     const user = await taskService.update(userId, updatedUser);
     return res.status(200).send(user);
 
@@ -84,3 +103,5 @@ router.delete("/api/task/:id", async (req, res) => {
 });
 
 module.exports = router;
+
+// description,resume,
