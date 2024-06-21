@@ -43,16 +43,19 @@ router.get("/api/user/:id", async (req, res) => {
 router.post("/api/user", async (req, res) => {
   // #swagger.tags = ['Usuario']
   try {
-    const newUser = req.body;
+    // const newUser = req.body;
+    const { firstname, lastname, email, domicilio, celular, documento, rol, area } = req.body;
 
-    // Validar que todos los campos requeridos están presentes
-    const requiredFields = ["firstname", "lastname", "email", "domicilio", "celular", "documento", "rol", "area"];
-    for (const field of requiredFields) {
-      if (!newUser[field]) {
-        return res.status(400).send({ error: `El campo ${field} es requerido` });
-      }
+    const newUser = {
+      firstname,
+      lastname,
+      email, domicilio,
+      celular,
+      documento,
+      rol,
+      area
     }
-
+    
     // Guardar el nuevo usuario
     const user = await userService.save(newUser);
 
@@ -81,7 +84,7 @@ router.put("/api/user/:id", async (req, res) => {
       rol,
       area,
     }
-    
+
     // Actualizar usuario por ID
     const user = await userService.update(userId, updatedUser);
 

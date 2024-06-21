@@ -1,19 +1,38 @@
 const userModel = require("../../models/user");
 const pager = require("../../utils/pager");
 
+// async function createIfNotExists(decoded, response) {
+//   let user = await findOne(decoded.email)
+//   if (!user) {
+//     user = { firstname: decoded.given_name, lastname: decoded.family_name, email: decoded.email }
+//     await save(user)
+//   }
+//   return user
+// }
+
 async function createIfNotExists(decoded, response) {
-  let user = await findOne(decoded.email)
+  let user = await findOne(decoded.email);
   if (!user) {
-    user = { firstname: decoded.given_name, lastname: decoded.family_name, email: decoded.email }
-    await save(user)
+    user = {
+      firstname: decoded.given_name , 
+      lastname: decoded.family_name ,
+      email: decoded.email || "",
+      domicilio: decoded.domicilio || "",
+      celular: decoded.celular,
+      documento: decoded.documento,
+      rol: decoded.rol || "",
+      area: decoded.area || ""
+    };
+    await save(user);
   }
-  return user
+  return user;
 }
 
 async function findOneById(_id) {
   return await userModel.findById(_id).exec();
 }
 
+// Busca un usuario por email
 async function findOne(email) {
   return await userModel.findOne({ email: email }).exec();
 }
