@@ -1,5 +1,7 @@
 const express = require("express");
 const timerService = require("./timer.service");
+const mongoose = require('mongoose');
+
 
 const router = express.Router();
 
@@ -73,7 +75,7 @@ router.put("/api/timer/:id", async (req, res) => {
       task
     };
 
-    const timer = await timerService.update(timerId,updatedTimer);
+    const timer = await timerService.update(timerId, updatedTimer);
     return res.status(200).send(timer);
 
   } catch (error) {
@@ -87,6 +89,12 @@ router.delete("/api/timer/:id", async (req, res) => {
   // #swagger.tags = ['Timer']
   try {
     const timerId = req.params.id;
+
+    // Verificar si el ID es válido
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send({ error: "ID del temporizador no valido" });
+    }
+
     await timerService.remove(timerId);
     return res.status(200).send("Temporizador eliminado correctamente.");
 

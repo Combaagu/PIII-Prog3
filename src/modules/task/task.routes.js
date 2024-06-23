@@ -1,5 +1,7 @@
 const express = require("express");
 const taskService = require("./task.service");
+const mongoose = require('mongoose');
+
 
 const router = express.Router();
 
@@ -88,6 +90,12 @@ router.delete("/api/task/:id", async (req, res) => {
   // #swagger.tags = ['Task']
   try {
     const taskId = req.params.id;
+
+    // Verificar si el ID es válido
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send({ error: "ID de la tarea no valida" });
+    }
+
     await taskService.remove(taskId);
     return res.status(200).send("Tarea eliminada correctamente.");
 

@@ -1,5 +1,6 @@
 const express = require("express");
 const userService = require("./user.service");
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -40,7 +41,6 @@ router.get("/api/user/:id", async (req, res) => {
 });
 
 // POST /api/user
-// const
 router.post("/api/user", async (req, res) => {
   // #swagger.tags = ['Usuario']
   const { firstname, lastname, email, domicilio, celular, documento, rol, area } = req.body;
