@@ -2,23 +2,23 @@ const userModel = require("../../models/user");
 const pager = require("../../utils/pager");
 
 
-async function createIfNotExists(decoded, response) {
-  let user = await findOne(decoded.email);
-  if (!user) {
-    user = {
-      firstname: decoded.given_name , 
-      lastname: decoded.family_name ,
-      email: decoded.email || "",
-      domicilio: decoded.domicilio || "",
-      celular: decoded.celular,
-      documento: decoded.documento,
-      rol: decoded.rol || "",
-      area: decoded.area || ""
-    };
-    await save(user);
-  }
-  return user;
-}
+// async function createIfNotExists(decoded, response) {
+//   let user = await findOne(decoded.email);
+//   if (!user) {
+//     user = {
+//       firstname: decoded.given_name , 
+//       lastname: decoded.family_name ,
+//       email: decoded.email || "",
+//       domicilio: decoded.domicilio || "",
+//       celular: decoded.celular,
+//       documento: decoded.documento,
+//       rol: decoded.rol || "",
+//       area: decoded.area || ""
+//     };
+//     await save(user);
+//   }
+//   return user;
+// }
 
 async function findOneById(_id) {
   return await userModel.findById(_id).exec();
@@ -26,7 +26,7 @@ async function findOneById(_id) {
 
 // busca un usuario por email
 async function findOne(email) {
-  return await userModel.findOne({ email: email }).exec();
+  return await userModel.findOne(email).exec();
 }
 
 async function save(user) {
@@ -57,4 +57,5 @@ async function remove(id) {
   return await userModel.findOneAndDelete({ _id: id }).exec();
 }
 
-module.exports = { createIfNotExists, findOneById, findOne, save, paginated, update, remove };
+module.exports = { findOneById, findOne, save, paginated, update, remove };
+// createIfNotExists

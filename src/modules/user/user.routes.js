@@ -40,29 +40,45 @@ router.get("/api/user/:id", async (req, res) => {
 });
 
 // POST /api/user
+// const
 router.post("/api/user", async (req, res) => {
   // #swagger.tags = ['Usuario']
+  const { firstname, lastname, email, domicilio, celular, documento, rol, area } = req.body;
+  // const newUser = req.body;
+
   try {
-    // const newUser = req.body;
-    const { firstname, lastname, email, domicilio, celular, documento, rol, area } = req.body;
+
+    const existingUser = await userService.findOne({ email:email });
+    if (existingUser) {
+      return res.status(400).send({ error: 'El email ya está registrado.' });
+    }
+
 
     const newUser = {
-      firstname,
-      lastname,
-      email, domicilio,
-      celular,
-      documento,
-      rol,
-      area
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      domicilio: domicilio,
+      celular: celular,
+      documento: documento,
+      rol: rol,
+      area: area,
     }
-    
+
     // Guardar el nuevo usuario
     const user = await userService.save(newUser);
 
+    console.log(user)
     return res.status(201).send(user);
+
+
   } catch (error) {
     console.error(error);
-    return res.status(500).send({ error: "Error interno del servidor" });
+    if (error.code === 11000) {
+      res.status(400).send({ error: 'El email ya está registrado.' });
+    } else {
+      res.status(500).send({ error: 'Error interno del servidor' });
+    }
   }
 });
 
