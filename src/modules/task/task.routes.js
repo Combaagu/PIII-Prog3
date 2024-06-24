@@ -76,6 +76,10 @@ router.put("/api/task/:id", async (req, res) => {
       user
     };
 
+    if (!mongoose.Types.ObjectId.isValid(taskId)) {
+      return res.status(400).send({ error: "ID de la tarea no valida" });
+    }
+    
     const task = await taskService.update(taskId, updatedTask);
     return res.status(200).send(task);
 
@@ -92,7 +96,7 @@ router.delete("/api/task/:id", async (req, res) => {
     const taskId = req.params.id;
 
     // Verificar si el ID es válido
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    if (!mongoose.Types.ObjectId.isValid(taskId)) {
       return res.status(400).send({ error: "ID de la tarea no valida" });
     }
 

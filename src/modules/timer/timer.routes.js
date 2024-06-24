@@ -75,6 +75,9 @@ router.put("/api/timer/:id", async (req, res) => {
       task
     };
 
+    if (!mongoose.Types.ObjectId.isValid(timerId)) {
+      return res.status(400).send({ error: "ID del temporizador no valido" });
+    }
     const timer = await timerService.update(timerId, updatedTimer);
     return res.status(200).send(timer);
 

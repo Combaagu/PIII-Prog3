@@ -101,12 +101,12 @@ router.put("/api/user/:id", async (req, res) => {
       area,
     }
 
+    
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send({ error: "ID de usuario inválido" });
+    }
     // Actualizar usuario por ID
     const user = await userService.update(userId, updatedUser);
-
-    if (!user) {
-      return res.status(404).send({ error: "Usuario no encontrado" });
-    }
 
     return res.status(200).send(user);
   } catch (error) {
