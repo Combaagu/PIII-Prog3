@@ -10,7 +10,9 @@ const router = express.Router();
 router.get("/api/task", async (req, res) => {
   // #swagger.tags = ['Task']
   try {
-    params = req.query;
+    // params = req.query;
+    const params = JSON.parse(req.headers['params'])
+
 
     let paginated = await taskService.paginated(params);
     return res.status(200).send(paginated);

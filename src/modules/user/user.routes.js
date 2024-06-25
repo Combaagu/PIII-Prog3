@@ -8,7 +8,8 @@ const router = express.Router();
 router.get("/api/user", async (req, res) => {
   // #swagger.tags = ['Usuario']
   try {
-    const params = req.query;
+    // const params = req.query;
+    const params = JSON.parse(req.headers['params'])
 
     // const page = parseInt(params.page, 10) || 0;
     // const perPage = parseInt(params.perPage, 10) || 10;

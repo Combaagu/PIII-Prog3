@@ -9,7 +9,9 @@ const router = express.Router();
 router.get("/api/timer", async (req, res) => {
   // #swagger.tags = ['Timer']
   try {
-    params = req.query;
+    // params = req.query;
+    const params = JSON.parse(req.headers['params'])
+
 
     let paginated = await timerService.paginated(params);
     return res.status(200).send(paginated);
