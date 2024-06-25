@@ -62,6 +62,11 @@ router.post("/api/task", async (req, res) => {
     console.log(newTask);
 
     const task = await taskService.save(newTask);
+
+    if(!task){
+      return res.status(400).send({error: "Campos incompletos"})
+    }
+    
     return res.status(201).send(task);
 
   } catch (error) {

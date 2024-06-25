@@ -74,6 +74,10 @@ router.post("/api/user", async (req, res) => {
     const user = await userService.save(newUser);
 
     console.log(user)
+    if(!user){
+      return res.status(400).send({error: "Campos incompletos"})
+    }
+
     return res.status(201).send(user);
 
 
@@ -136,7 +140,7 @@ router.delete("/api/user/:id", async (req, res) => {
     }
 
     // Eliminar usuario por ID
-    await userService.remove(userId);
+    const user = await userService.remove(userId);
 
     if (!user) {
       return res.status(404).send({ error: "Usuario no encontrado" });

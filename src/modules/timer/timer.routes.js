@@ -50,18 +50,24 @@ router.get("/api/timer/:id", async (req, res) => {
 router.post("/api/timer", async (req, res) => {
   // #swagger.tags = ['Timer']
   try {
-    const { startDate, endDate, startTime, endTime, task } = req.body;
+    const { startDate, endDate, startTime, endTime, task, user } = req.body;
 
     const newTimer = {
       startDate,
       endDate,
       startTime,
       endTime,
-      task
+      task,
+      user,
     };
     console.log(newTimer);
 
     const timer = await timerService.save(newTimer);
+
+    if(!timer){
+      return res.status(400).send({error: "Campos incompletos"})
+    }
+
     return res.status(201).send(timer);
 
   } catch (error) {
@@ -116,7 +122,7 @@ router.delete("/api/timer/:id", async (req, res) => {
       return res.status(400).send({ error: "ID del temporizador no valido" });
     }
 
-    await timerService.remove(timerId);
+    const timer = await timerService.remove(timerId);
 
     if (!timer){
       return res.status(400).send ({error: "Timer no encontrado"})
