@@ -24,9 +24,20 @@ router.get("/api/task", async (req, res) => {
 // GET /api/task/:id
 router.get("/api/task/:id", async (req, res) => {
   // #swagger.tags = ['Task']
+  const taskId = req.params.id;
+
   try {
-    const taskId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(taskId)) {
+      return res.status(400).send({ error: "ID de la tarea no valida" });
+    }
+
     const task = await taskService.findOneById(taskId);
+
+    if (!task) {
+      return res.status(400).send({ error: "Tarea no encontrada" })
+    }
+
     return res.status(200).send(task);
 
   } catch (error) {
@@ -79,13 +90,19 @@ router.put("/api/task/:id", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(taskId)) {
       return res.status(400).send({ error: "ID de la tarea no valida" });
     }
-    
+
     const task = await taskService.update(taskId, updatedTask);
+
+    if (!task) {
+      return res.status(400).send({ error: "Tarea no encontrada" })
+    }
+
     return res.status(200).send(task);
 
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
+
   }
 });
 
@@ -100,7 +117,11 @@ router.delete("/api/task/:id", async (req, res) => {
       return res.status(400).send({ error: "ID de la tarea no valida" });
     }
 
-    await taskService.remove(taskId);
+    const task = await taskService.remove(taskId);
+
+    if (!task) {
+      return res.status(400).send({ error: "Tarea no encontrada" })
+    }
     return res.status(200).send("Tarea eliminada correctamente.");
 
   } catch (error) {

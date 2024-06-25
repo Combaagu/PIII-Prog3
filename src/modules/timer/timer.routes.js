@@ -23,9 +23,21 @@ router.get("/api/timer", async (req, res) => {
 // GET /api/timer/:id
 router.get("/api/timer/:id", async (req, res) => {
   // #swagger.tags = ['Timer']
+  const timerId = req.params.id;
+
   try {
-    const timerId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(timerId)) {
+      return res.status(400).send({ error: "ID del temporizador no valido" });
+    }
+
     const timer = await timerService.findOneById(timerId);
+
+    
+    if (!timer){
+      return res.status(400).send ({error: "Timer no encontrado"})
+    }
+
     return res.status(200).send(timer);
 
   } catch (error) {
@@ -79,6 +91,12 @@ router.put("/api/timer/:id", async (req, res) => {
       return res.status(400).send({ error: "ID del temporizador no valido" });
     }
     const timer = await timerService.update(timerId, updatedTimer);
+
+    
+    if (!timer){
+      return res.status(400).send ({error: "Timer no encontrado"})
+    }
+
     return res.status(200).send(timer);
 
   } catch (error) {
@@ -94,11 +112,16 @@ router.delete("/api/timer/:id", async (req, res) => {
     const timerId = req.params.id;
 
     // Verificar si el ID es válido
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    if (!mongoose.Types.ObjectId.isValid(timerId)) {
       return res.status(400).send({ error: "ID del temporizador no valido" });
     }
 
     await timerService.remove(timerId);
+
+    if (!timer){
+      return res.status(400).send ({error: "Timer no encontrado"})
+    }
+
     return res.status(200).send("Temporizador eliminado correctamente.");
 
   } catch (error) {

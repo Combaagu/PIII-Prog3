@@ -27,8 +27,13 @@ router.get("/api/user", async (req, res) => {
 // GET /api/user/:id
 router.get("/api/user/:id", async (req, res) => {
   // #swagger.tags = ['Usuario']
+  const userId = req.params.id;
+
   try {
-    const userId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send({ error: "ID de usuario inválido" });
+    }
     const user = await userService.findOneById(userId);
     if (!user) {
       return res.status(404).send({ error: "Usuario no encontrado" });
@@ -108,6 +113,10 @@ router.put("/api/user/:id", async (req, res) => {
     // Actualizar usuario por ID
     const user = await userService.update(userId, updatedUser);
 
+    if (!user) {
+      return res.status(404).send({ error: "Usuario no encontrado" });
+    }
+
     return res.status(200).send(user);
   } catch (error) {
     console.error("Error al actualizar usuario:", error);
@@ -129,6 +138,10 @@ router.delete("/api/user/:id", async (req, res) => {
     // Eliminar usuario por ID
     await userService.remove(userId);
 
+    if (!user) {
+      return res.status(404).send({ error: "Usuario no encontrado" });
+    }
+    
     return res.status(200).send("Usuario eliminado correctamente.");
   } catch (error) {
     console.error("Error al eliminar usuario:", error);
