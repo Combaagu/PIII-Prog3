@@ -11,10 +11,14 @@ router.get("/api/task", async (req, res) => {
   // #swagger.tags = ['Task']
   try {
     // params = req.query;
-    const params = JSON.parse(req.headers['params'])
+    const params = JSON.parse(req.headers['params'])    
+    
+    const page = parseInt(params.page, 10) || 0;
+    const perPage = parseInt(params.perPage, 10) || 10;
+    const filter = params.filter || {};
+    const sort = params.sort || {};
 
-
-    let paginated = await taskService.paginated(params);
+    const paginated = await taskService.paginated({ page, perPage, filter, sort });
     return res.status(200).send(paginated);
 
   } catch (error) {
@@ -49,7 +53,6 @@ router.get("/api/task/:id", async (req, res) => {
 });
 
 // POST /api/task
-//metodo body 
 router.post("/api/task", async (req, res) => {
   // #swagger.tags = ['Task']
   try {
